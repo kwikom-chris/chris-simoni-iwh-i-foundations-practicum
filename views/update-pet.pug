@@ -1,0 +1,14 @@
+doctype html
+html
+  head
+    title= `${title}`
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    link(rel="stylesheet", href="/css/style.css")
+  body
+    form(action="/update-pet" method="POST")
+      input(type="hidden" name="id" value=`${data.id}`)
+      input(type="text" name="name" placeholder="Name" value=`${data.name}`)
+      input(type="text" name="type" placeholder="Type" value=`${data.type}`)
+      input(type="text" name="age" placeholder="Age" value=`${data.age}`)
+      button(type="submit") Add/Update Pet
+    a(href='/') Home
