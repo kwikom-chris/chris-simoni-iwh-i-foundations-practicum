@@ -61,7 +61,51 @@ app.get('/update-pet', async (req, res) => {
 // TODO: ROUTE 3 - Create a new app.post route for the custom objects form to create or update your custom object data. Once executed, redirect the user to the homepage.
 
 app.post('/update-pet', async (req, res) => {
-    console.log(req.body);
+  const {id, name , type, age} = req.body;
+
+  if (id) {
+    const customObject = `https://api.hubspot.com/crm/v3/objects/p_pets/${id}`;
+    const headers = {
+        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+        'Content-Type': 'application/json'
+    };
+
+    const data = {
+        properties: {
+            name,
+            pet_type: type,
+            pet_age: age
+        }
+    };
+
+    try {
+        await axios.patch(customObject, data, { headers });
+        res.redirect('/');
+    } catch (error) {
+        console.error(error);
+    }
+  } else {
+    const customObject = 'https://api.hubspot.com/crm/v3/objects/p_pets';
+    const headers = {
+        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+        'Content-Type': 'application/json'
+    };
+
+    const data = {
+        properties: {
+            name,
+            pet_type: type,
+            pet_age: age
+        }
+    };
+
+    try {
+        await axios.post(customObject, data, { headers });
+        res.redirect('/');
+    } catch (error) {
+        console.error(error);
+    }
+  }
 });
 
 /** 
